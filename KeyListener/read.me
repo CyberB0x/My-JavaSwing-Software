@@ -1,0 +1,64 @@
+Здесь происходит обработки нажатия клавиш компонентом JPanel. Вообще по умолчанию JPanel не должен получать фокуса, однако это можно зделать, если очень захотеть при помощи метода setFocusable и передать этому методу true в качестве параметра.
+
+package com.antispambo.arslonbek;
+
+
+import javax.swing.*;
+import java.awt.*;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
+
+/**
+ * @author Arslonbek Erkinov
+ */
+
+public class Main extends JFrame {
+    /**
+     * Key-Listener
+     * 13.01.2024
+     */
+    private JLabel KeyToText;
+
+    public Main() {
+        super("MAIN FRAME");
+        GUIFrameKey();
+    }
+
+    public void GUIFrameKey() {
+        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+
+        JPanel panel = new JPanel();
+        panel.setLayout(new BorderLayout());
+        panel.setFocusable(true);
+
+        KeyToText = new JLabel();
+        KeyToText.setFont(new Font("Italic",Font.ITALIC,18));
+        KeyToText.setHorizontalAlignment(JLabel.CENTER);
+
+        panel.addKeyListener(new KeyAdapter() {
+            @Override
+            public void keyReleased(KeyEvent e) {
+                KeyToText.setText(e.getKeyText(e.getKeyCode()));
+                System.out.println("Нажата Клавиша: " + KeyToText.getText());
+            }
+        });
+
+        panel.add(KeyToText,BorderLayout.CENTER);
+
+        setPreferredSize(new Dimension(150,250));
+        getContentPane().add(panel);
+
+    }
+    public static void main(String[] args) {
+        javax.swing.SwingUtilities.invokeLater(new Runnable() {
+            @Override
+            public void run() {
+                JFrame.setDefaultLookAndFeelDecorated(true);
+                Main FrameMain = new Main();
+                FrameMain.pack();
+                FrameMain.setLocationRelativeTo(null);
+                FrameMain.setVisible(true);
+            }
+        });
+    }
+}
